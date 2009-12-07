@@ -39,26 +39,30 @@ class ThemeSnip {
 		doBind(form)
 	}
 
+	def storiesList(theme: Theme, reDraw: () => JsCmd)(ns: NodeSeq): NodeSeq = {
+		theme.stories.flatMap({story => 
+			bind("story", ns,
+				"title" -> Text(story.title.toString),
+				"remove" -> ajaxButton("Remove", () => {delStory(theme, story); reDraw()})
+				)
+		})
+	}
+
 	def view(form: NodeSeq) = {
 		val theme = currentTheme
+		val id = S.attr("view_id").open_!
 
-		def doBind(form: NodeSeq) =
+		def inner(): NodeSeq = {
+			def reDraw() = SetHtml(id, inner())
+
 			bind("theme", form,
 				"title" -> Text(theme.title.toString),
 				"description" -> Text(theme.description.toString),
-				"value" -> Text(theme.value.toString)
-			)
-				
-		/*
-				"stories" -> {(ns:NodeSeq) => 
-					theme.stories.flatMap {story => 
-						bind("story", ns,
-							"title" -> Text(story.title.toString),
-							"remove" -> SHtml.submit(?("Remove"),
-								() => theme.stories -= story))}})
-		*/
+				"value" -> Text(theme.value.toString),
+				"stories" -> storiesList(theme, reDraw)_)
+		}
 
-		doBind(form)
+		inner()
 	}
 
 	def storyOpts(): Seq[(Story, String)] = {
@@ -107,6 +111,12 @@ class ThemeSnip {
 		}
 
 		inner()
+	}
+
+	def delStory(theme: Theme, story: Story) = {
+		theme.stories -= story
+		theme.save
+		CurrentThemeVar(theme)
 	}
 
 	def saveStory(theme: Theme)(story: Story) = {

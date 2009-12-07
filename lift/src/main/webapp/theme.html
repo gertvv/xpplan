@@ -1,7 +1,8 @@
 <lift:surround with="default" at="content">
 	<h2>Theme View</h2>
 	<lift:Util.in>
-		<lift:ThemeSnip.view>
+		<lift:ThemeSnip.view view_id="view">
+		<div id="view">
 		<table>
 			<tr>
 				<td>Title: </td>
@@ -15,7 +16,22 @@
 				<td>Business Value: </td>
 				<td><theme:value></theme:value></td>
 			</tr>
+			<tr>
+				<td>Stories: </td>
+				<td>
+				<theme:stories>
+				<div id="stories">
+				<ul>
+					<li><story:title></story:title>
+					&nbsp;<story:remove/>
+					</li>
+				</ul>
+				</div>
+				</theme:stories>
+				</td>
+			</tr>
 		</table>
+		</div>
 		</lift:ThemeSnip.view>
 		<div>
 		<lift:ThemeSnip.addStory form="post">
