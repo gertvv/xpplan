@@ -40,16 +40,15 @@ class ThemeSnip {
 	}
 
 	def view(form: NodeSeq) = {
-		val theme = Theme.find(By(Theme.id, 0))
+		val id = S.param("id").open_!.toLong
+		val theme = Theme.find(By(Theme.id, id)).open_! ;
 
+		def doBind(form: NodeSeq) =
+			bind("theme", form,
+				"title" -> Text(theme.title.toString),
+				"description" -> Text(theme.description.toString),
+				"value" -> Text(theme.value.toString))
 
-		def doBind(form: NodeSeq) = Nil
-/*
-		bind("theme", form,
-			"title" -> Full(theme.title.toString),
-			"description" -> Full(theme.description.toString),
-			"value" -> Full(theme.value.toString))
-*/
 		doBind(form)
 	}
 
