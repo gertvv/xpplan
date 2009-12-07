@@ -39,6 +39,19 @@ class ThemeSnip {
 		doBind(form)
 	}
 
+	def addStory(form: NodeSeq) = {
+		val theme = currentTheme
+
+		def doBind(form: NodeSeq) =
+			bind("theme", form,
+				"newStory" -> selectObj(storyOpts, Empty,
+						{story:Story => theme.stories += story; theme.save}),
+				"submit" -> submit("addStory", ()=>{})
+			)
+
+		doBind(form)
+	}
+
 	def view(form: NodeSeq) = {
 		val theme = currentTheme
 
@@ -46,9 +59,23 @@ class ThemeSnip {
 			bind("theme", form,
 				"title" -> Text(theme.title.toString),
 				"description" -> Text(theme.description.toString),
-				"value" -> Text(theme.value.toString))
+				"value" -> Text(theme.value.toString)
+			)
+				
+		/*
+				"stories" -> {(ns:NodeSeq) => 
+					theme.stories.flatMap {story => 
+						bind("story", ns,
+							"title" -> Text(story.title.toString),
+							"remove" -> SHtml.submit(?("Remove"),
+								() => theme.stories -= story))}})
+		*/
 
 		doBind(form)
+	}
+
+	def storyOpts(): Seq[(Story, String)] = {
+		Story.findAll().map({story:Story => (story, story.title.toString)})
 	}
 
 	private def toShow =
@@ -74,7 +101,8 @@ class ThemeSnip {
 			"value" -> ajaxValue(theme, reDraw),
 			"title" -> ajaxTitle(theme, reDraw),
 			"description" -> ajaxDescription(theme, reDraw),
-			"link" -> link("/theme", () => CurrentThemeVar(theme), Text("View"))
+			"link" -> link("/theme", () => CurrentThemeVar(theme), Text("View")),
+			"stories" -> Text(theme.stories.map(_.title.toString).mkString(", "))
 		))
 
 	object CurrentThemeVar extends RequestVar[Theme]({Theme.create.createdBy(User.currentUser)})
