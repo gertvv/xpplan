@@ -39,19 +39,6 @@ class ThemeSnip {
 		doBind(form)
 	}
 
-	def addStory(form: NodeSeq) = {
-		val theme = currentTheme
-
-		def doBind(form: NodeSeq) =
-			bind("theme", form,
-				"newStory" -> selectObj(storyOpts, Empty,
-						{story:Story => theme.stories += story; theme.save}),
-				"submit" -> submit("addStory", ()=>{})
-			)
-
-		doBind(form)
-	}
-
 	def view(form: NodeSeq) = {
 		val theme = currentTheme
 
@@ -120,6 +107,26 @@ class ThemeSnip {
 		}
 
 		inner()
+	}
+
+	def saveStory(theme: Theme)(story: Story) = {
+		theme.stories += story
+		theme.save
+		CurrentThemeVar(theme)
+	}
+
+	def addStory(form: NodeSeq) = {
+		val theme = currentTheme
+
+		def doBind(form: NodeSeq): NodeSeq = {
+			bind("theme", form,
+				"newStory" -> selectObj(storyOpts, Empty,
+						saveStory(theme)),
+				"submit" -> submit("Add Story", ()=>{})
+			)
+		}
+
+		doBind(form)
 	}
 }
 
