@@ -4,6 +4,7 @@ import org.drugis._
 import model._
 
 import net.liftweb._
+import net.liftweb.common._
 import http._
 import SHtml._
 import S._
@@ -35,6 +36,20 @@ class ThemeSnip {
 			"value" -> theme.value.toForm,
 			"submit" -> submit("New", checkAndSave))
 
+		doBind(form)
+	}
+
+	def view(form: NodeSeq) = {
+		val theme = Theme.find(By(Theme.id, 0))
+
+
+		def doBind(form: NodeSeq) = Nil
+/*
+		bind("theme", form,
+			"title" -> Full(theme.title.toString),
+			"description" -> Full(theme.description.toString),
+			"value" -> Full(theme.value.toString))
+*/
 		doBind(form)
 	}
 

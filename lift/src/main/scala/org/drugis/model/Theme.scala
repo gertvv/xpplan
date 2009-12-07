@@ -1,6 +1,7 @@
 package org.drugis.model
 
 import net.liftweb._
+import common._
 import mapper._
 import http._
 import SHtml._
@@ -8,7 +9,9 @@ import util._
 import sitemap._
 import sitemap.Loc._
 
-class Theme extends LongKeyedMapper[Theme] with IdPK {
+class Theme extends LongKeyedMapper[Theme]
+with IdPK
+with ManyToMany {
 	def getSingleton = Theme
 
 	object title extends MappedText(this)
@@ -25,11 +28,22 @@ class Theme extends LongKeyedMapper[Theme] with IdPK {
 		override def _toForm = Full(select(Theme.valueList, Full(is.toString),
 			f => set(f.toInt)))
 	}
+	object stories extends MappedManyToMany(ThemeStory, ThemeStory.theme, ThemeStory.story, Story)
 }
 
 object Theme extends Theme with LongKeyedMetaMapper[Theme] {
 	lazy val valueList = (1 to 50).map(v => (v.toString, v.toString))
-	lazy val sitemap : List[Menu] = List(Menu(Loc("Themes", List("themes"), "Themes")))
+	lazy val sitemap : List[Menu] = List(Menu(Loc("Themes", List("themes"), "Themes")), Menu(Loc("Theme", List("theme"), "View Theme", Hidden)))
 }
+
+class ThemeStory extends LongKeyedMapper[ThemeStory]
+with IdPK {
+	def getSingleton = ThemeStory
+
+	object theme extends MappedLongForeignKey(this, Theme)
+	object story extends MappedLongForeignKey(this, Story)
+}
+
+object ThemeStory extends ThemeStory with LongKeyedMetaMapper[ThemeStory]
 
 // vim: set ts=4 sw=4 et:

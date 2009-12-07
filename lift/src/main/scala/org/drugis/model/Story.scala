@@ -1,6 +1,7 @@
 package org.drugis.model
 
 import net.liftweb._
+import common._
 import mapper._
 import http._
 import SHtml._
@@ -38,6 +39,7 @@ class Story extends LongKeyedMapper[Story] with IdPK {
 			f => set(f.toInt)))
 	}
 	object done extends MappedBoolean(this)
+	object themes extends MappedLongForeignKey(this, ThemeStory)
 }
 
 object Story extends Story with LongKeyedMetaMapper[Story] {
