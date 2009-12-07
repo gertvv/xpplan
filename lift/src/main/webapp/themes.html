@@ -1,0 +1,48 @@
+<lift:surround with="default" at="content">
+  <h2>Theme Overview!</h2>
+	<lift:Util.in>
+		<lift:ThemeSnip.add form="post">
+		<table>
+			<tr>
+				<td>Title: </td>
+				<td><theme:title>Title Here</theme:title></td>
+			</tr>
+			<tr>
+				<td>Description: </td>
+				<td><theme:description>Detailed Description Here</theme:description></td>
+			</tr>
+			<tr>
+				<td>Business Value: </td>
+				<td><theme:value></theme:value></td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td><theme:submit><button>New</button></theme:submit></td>
+			</tr>
+		</table>
+		</lift:ThemeSnip.add>
+		<lift:ThemeSnip.list themes_id="theme_list">
+		<div id="theme_list">
+		<table>
+			<tr>
+				<th></th>
+				<th>Theme</th>
+				<th>Value</th>
+			</tr>
+			<theme:list>
+				<tr>
+					<td>&nbsp;</td>
+					<td><theme:title></theme:title></td>
+					<td><theme:value></theme:value> vp</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td colspan="2"><theme:description></theme:description></td>
+				</tr>
+			</theme:list>
+		</table>
+		</div>
+		</lift:ThemeSnip.list>
+	</lift:Util.in>
+
+</lift:surround>

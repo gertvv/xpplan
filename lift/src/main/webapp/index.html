@@ -1,59 +1,6 @@
 <lift:surround with="default" at="content">
   <h2>Welcome to the XP Story Planner!</h2>
-	<lift:Util.in>
-		<lift:StorySnip.add form="post">
-		<table>
-			<tr>
-				<td>Title: </td>
-				<td><story:title>Title Here</story:title></td>
-			</tr>
-			<tr>
-				<td>Description: </td>
-				<td><story:description>Detailed Description Here</story:description></td>
-			</tr>
-			<tr>
-				<td>Business Value: </td>
-				<td><story:value></story:value></td>
-			</tr>
-			<tr>
-				<td>Implementation Complexity: </td>
-				<td><story:complexity></story:complexity></td>
-			</tr>
-			<tr>
-				<td>Completed: </td>
-				<td><story:done></story:done></td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td><story:submit><button>New</button></story:submit></td>
-			</tr>
-		</table>
-		</lift:StorySnip.add>
-		<lift:StorySnip.list stories_id="story_list">
-		<div id="story_list">
-		<p>Exclude done <story:exclude/></p>
-		<table>
-			<tr>
-				<th></th>
-				<th>Story</th>
-				<th>Value</th>
-				<th>Complexity</th>
-			</tr>
-			<story:list>
-				<tr>
-					<td><story:done></story:done></td>
-					<td><story:title></story:title></td>
-					<td><story:value></story:value> vp</td>
-					<td><story:complexity></story:complexity> sp</td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td>
-					<td colspan="3"><story:description></story:description></td>
-				</tr>
-			</story:list>
-		</table>
-		</div>
-		</lift:StorySnip.list>
-	</lift:Util.in>
+	<lift:Util.out>
+	<lift:menu.item name="Login">Log in</lift:menu.item> to use the story planner.
+	</lift:Util.out>
 </lift:surround>
-
