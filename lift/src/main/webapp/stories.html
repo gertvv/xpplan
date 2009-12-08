@@ -48,7 +48,18 @@
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
-					<td colspan="3"><story:description></story:description></td>
+					<td colspan="3">
+					<story:description></story:description>
+					<story:hasDeps>
+					<p>Depends on:</p>
+					<ul>
+					<story:dependsOn>
+						<li><dep:title/><dep:remove/></li>
+					</story:dependsOn>
+					</ul>
+					</story:hasDeps>
+					<p>Add dependency: <story:addDep/></p>
+					</td>
 				</tr>
 			</story:list>
 		</table>

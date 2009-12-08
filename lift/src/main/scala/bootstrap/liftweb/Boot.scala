@@ -22,7 +22,8 @@ class Boot {
 
     // where to search snippet
     LiftRules.addToPackages("org.drugis")
-    Schemifier.schemify(true, Log.infoF _, User, Story, Theme, ThemeStory)
+    Schemifier.schemify(true, Log.infoF _, User, Story, Theme,
+		ThemeStory, StoryPrecedence)
 
     // Build SiteMap
     val entries = Menu(Loc("Home", List("index"), "Home")) :: List.concat(Story.sitemap, Theme.sitemap, User.sitemap)

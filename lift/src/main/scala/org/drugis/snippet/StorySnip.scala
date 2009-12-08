@@ -59,6 +59,33 @@ class StorySnip {
 			<span>{ajaxText(story.description, v => {story.description(v).save; reDraw()})}
 			</span>)
 
+	private def delDependency(story: Story, dep: Story) = {
+		story.dependsOn -= dep
+		story.save
+	}
+
+	private def dependsOnList(story: Story, reDraw: () => JsCmd)(ns: NodeSeq): NodeSeq = {
+		story.dependsOn.flatMap({dep => 
+			bind("dep", ns,
+				"title" -> Text(dep.title.toString),
+				"remove" -> ajaxButton("Remove", () => {delDependency(story, dep); reDraw()})
+				)
+		})
+	}
+
+	private def addDep(story: Story, dep: Story) = {
+		story.dependsOn += dep
+		story.save
+	}
+
+	private def conditionalDeps(story: Story, reDraw: () => JsCmd)(html: NodeSeq): NodeSeq = {
+		val visible = !story.dependsOn.isEmpty
+		if (visible)
+			bind("story", html,
+				"dependsOn" -> dependsOnList(story, reDraw)_)
+		else Nil
+	}
+
 	private def doList(reDraw: () => JsCmd)(html: NodeSeq): NodeSeq =
 		toShow.flatMap(story => bind("story", html,
 			"done" -> ajaxCheckbox(story.done, v => {story.done(v).save; reDraw()}),
@@ -67,8 +94,13 @@ class StorySnip {
 			"complexity" -> ajaxSelect(Story.complexityList, Full(story.complexity.toString),
 				v => {story.complexity(v.toInt).save; reDraw()}),
 			"title" -> title(story, reDraw),
-			"description" -> description(story, reDraw)
+			"description" -> description(story, reDraw),
+			"hasDeps" -> conditionalDeps(story, reDraw) _,
+			"addDep" -> ajaxSelectObj(storyList, Empty, (dep:Story)=>{addDep(story, dep); reDraw()})
 		))
+
+	private def storyList: List[(Story, String)] =
+		(null, "(select one)") :: Story.storyList
 
 	def list (html: NodeSeq) = {
 		val id = S.attr("stories_id").open_!

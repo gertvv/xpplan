@@ -65,10 +65,6 @@ class ThemeSnip {
 		inner()
 	}
 
-	def storyOpts(): Seq[(Story, String)] = {
-		Story.findAll().map({story:Story => (story, story.title.toString)})
-	}
-
 	private def toShow =
 		Theme.findAll(By(Theme.createdBy, User.currentUser),
 			OrderBy(Theme.value, Descending))
@@ -130,7 +126,7 @@ class ThemeSnip {
 
 		def doBind(form: NodeSeq): NodeSeq = {
 			bind("theme", form,
-				"newStory" -> selectObj(storyOpts, Empty,
+				"newStory" -> selectObj(Story.storyList, Empty,
 						saveStory(theme)),
 				"submit" -> submit("Add Story", ()=>{})
 			)

@@ -9,7 +9,9 @@ import util._
 import sitemap._
 import sitemap.Loc._
 
-class Story extends LongKeyedMapper[Story] with IdPK {
+class Story extends LongKeyedMapper[Story]
+with IdPK
+with ManyToMany {
 	def getSingleton = Story
 
 	object title extends MappedText(this)
@@ -40,12 +42,25 @@ class Story extends LongKeyedMapper[Story] with IdPK {
 	}
 	object done extends MappedBoolean(this)
 	object themes extends MappedLongForeignKey(this, ThemeStory)
+	object dependsOn extends MappedManyToMany(StoryPrecedence, StoryPrecedence.antecedent, StoryPrecedence.precedent, Story)
 }
 
 object Story extends Story with LongKeyedMetaMapper[Story] {
 	lazy val valueList = (1 to 5).map(v => (v.toString, v.toString))
 	lazy val complexityList = List(1, 2, 3, 5, 8).map(v => (v.toString, v.toString))
 	lazy val sitemap : List[Menu] = List(Menu(Loc("Stories", List("stories"), "Stories")))
+	def storyList = findAll().map({story:Story => (story, story.title.toString)})
 }
+
+class StoryPrecedence extends LongKeyedMapper[StoryPrecedence]
+with IdPK {
+	def getSingleton = StoryPrecedence
+
+	object precedent extends MappedLongForeignKey(this, Story)
+	object antecedent extends MappedLongForeignKey(this, Story)
+}
+
+object StoryPrecedence extends StoryPrecedence
+with LongKeyedMetaMapper[StoryPrecedence]
 
 // vim: set ts=4 sw=4 et:
