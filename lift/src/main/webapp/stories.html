@@ -20,7 +20,11 @@
 				<td><story:complexity></story:complexity></td>
 			</tr>
 			<tr>
-				<td>Completed: </td>
+				<td>Ready to implement: </td>
+				<td><story:ready></story:ready></td>
+			</tr>
+			<tr>
+				<td>Completed (done): </td>
 				<td><story:done></story:done></td>
 			</tr>
 			<tr>
@@ -34,20 +38,22 @@
 		<p>Exclude done <story:exclude/></p>
 		<table>
 			<tr>
-				<th></th>
+				<th>Ready</th>
+				<th>Done</th>
 				<th>Story</th>
 				<th>Value</th>
 				<th>Complexity</th>
 			</tr>
 			<story:list>
 				<tr>
+					<td><story:ready></story:ready></td>
 					<td><story:done></story:done></td>
 					<td><story:title></story:title></td>
 					<td><story:value></story:value> vp</td>
 					<td><story:complexity></story:complexity> sp</td>
 				</tr>
 				<tr>
-					<td>&nbsp;</td>
+					<td colspan="2">&nbsp;</td>
 					<td colspan="3">
 					<story:description></story:description>
 					<story:hasDeps>

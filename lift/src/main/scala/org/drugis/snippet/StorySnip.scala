@@ -36,13 +36,14 @@ class StorySnip {
 			"value" -> story.value.toForm,
 			"complexity" -> story.complexity.toForm,
 			"done" -> story.done.toForm,
+			"ready" -> story.ready.toForm,
 			"submit" -> submit("New", checkAndSave))
 
 		doBind(form)
 	}
 
 	private def toShow =
-		Story.findAll(By(Story.createdBy, User.currentUser),
+		Story.findAll(
 			if (QueryNotDone) By(Story.done, false)
 			else Ignore[Story],
 			OrderBy(Story.done, Ascending),
@@ -89,6 +90,7 @@ class StorySnip {
 	private def doList(reDraw: () => JsCmd)(html: NodeSeq): NodeSeq =
 		toShow.flatMap(story => bind("story", html,
 			"done" -> ajaxCheckbox(story.done, v => {story.done(v).save; reDraw()}),
+			"ready" -> ajaxCheckbox(story.ready, v => {story.ready(v).save; reDraw()}),
 			"value" -> ajaxSelect(Story.valueList, Full(story.value.toString),
 				v => {story.value(v.toInt).save; reDraw()}),
 			"complexity" -> ajaxSelect(Story.complexityList, Full(story.complexity.toString),

@@ -40,6 +40,7 @@ with ManyToMany {
 			Full(is.toString),
 			f => set(f.toInt)))
 	}
+	object ready extends MappedBoolean(this)
 	object done extends MappedBoolean(this)
 	object themes extends MappedLongForeignKey(this, ThemeStory)
 	object dependsOn extends MappedManyToMany(StoryPrecedence, StoryPrecedence.antecedent, StoryPrecedence.precedent, Story)

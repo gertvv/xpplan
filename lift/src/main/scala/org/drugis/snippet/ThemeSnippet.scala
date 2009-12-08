@@ -66,7 +66,7 @@ class ThemeSnip {
 	}
 
 	private def toShow =
-		Theme.findAll(By(Theme.createdBy, User.currentUser),
+		Theme.findAll(
 			OrderBy(Theme.value, Descending))
 
 	private def ajaxTitle(theme: Theme, reDraw: () => JsCmd) =
