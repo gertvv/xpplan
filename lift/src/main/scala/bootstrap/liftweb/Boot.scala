@@ -16,6 +16,9 @@ import _root_.net.liftweb.http.provider.{HTTPRequest}
   * to modify lift's environment
   */
 class Boot {
+	private def outputSiteMap: List[Menu] =
+		List(Menu(Loc("CSV Output", List("output"), "CSV")))
+
   def boot {
     if (!DB.jndiJdbcConnAvailable_?)
       DB.defineConnectionManager(DefaultConnectionIdentifier, DBVendor)
@@ -26,7 +29,7 @@ class Boot {
 		ThemeStory, StoryPrecedence)
 
     // Build SiteMap
-    val entries = Menu(Loc("Home", List("index"), "Home")) :: List.concat(Story.sitemap, Theme.sitemap, User.sitemap)
+    val entries = Menu(Loc("Home", List("index"), "Home")) :: List.concat(Story.sitemap, Theme.sitemap, outputSiteMap, User.sitemap)
     LiftRules.setSiteMap(SiteMap(entries:_*))
 
     /*
