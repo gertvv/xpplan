@@ -1,0 +1,28 @@
+<project name="xpplan-sqldump" basedir="." default="dump">
+
+<path id="runtime-classpath">
+  <fileset dir="lib">
+    <include name="**/*.jar"/>
+    <include name="**/*.zip"/>
+  </fileset>
+</path>
+
+<target name="dump" description="Dumps the database structure">
+  <taskdef name="databaseToDdl"
+           classname="org.apache.ddlutils.task.DatabaseToDdlTask">
+    <classpath refid="runtime-classpath"/>
+
+  </taskdef>
+  <databaseToDdl modelName="MyModel">
+    <database url="jdbc:derby:lift_example"
+              driverClassName="org.apache.derby.jdbc.EmbeddedDriver"
+              username=""
+              password=""/>
+
+    <writeSchemaToFile outputFile="db-schema.xml"/>
+    <writeDataToFile outputFile="data.xml"/>
+  </databaseToDdl>
+
+</target>
+
+</project>
