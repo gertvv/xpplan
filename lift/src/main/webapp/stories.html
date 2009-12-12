@@ -12,22 +12,6 @@
 				<td><story:description>Detailed Description Here</story:description></td>
 			</tr>
 			<tr>
-				<td>Business Value: </td>
-				<td><story:value></story:value></td>
-			</tr>
-			<tr>
-				<td>Implementation Complexity: </td>
-				<td><story:complexity></story:complexity></td>
-			</tr>
-			<tr>
-				<td>Ready to implement: </td>
-				<td><story:ready></story:ready></td>
-			</tr>
-			<tr>
-				<td>Completed (done): </td>
-				<td><story:done></story:done></td>
-			</tr>
-			<tr>
 				<td>&nbsp;</td>
 				<td><story:submit><button>New</button></story:submit></td>
 			</tr>
@@ -55,25 +39,8 @@
 				<tr>
 					<td colspan="2">&nbsp;</td>
 					<td colspan="3">
-					<story:description></story:description>
-					<story:hasDeps>
-					<p>Depends on:</p>
-					<ul>
-					<story:dependsOn>
-						<li><dep:title/><dep:remove/></li>
-					</story:dependsOn>
-					</ul>
-					</story:hasDeps>
-					<p>Add dependency: <story:addDep/></p>
-					<story:hasThemes>
-					<p>Themes:</p>
-					<ul>
-					<story:themes>
-						<li><theme:title/><theme:remove/></li>
-					</story:themes>
-					</ul>
-					</story:hasThemes>
-					<p>Add theme: <story:addTheme/></p>
+					<story:nDeps/> dependencies, <story:nThemes/> themes
+					(<story:link/>)
 					</td>
 				</tr>
 			</story:list>

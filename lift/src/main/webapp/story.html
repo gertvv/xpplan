@@ -1,0 +1,73 @@
+<lift:surround with="default" at="content">
+<style type="text/css">
+	td.h { font-weight: bold; }
+	button { background-color: #dddddd; border: 1px solid black; padding: 1px; }
+</style>
+	<h2>Story View</h2>
+	<lift:Util.in>
+		<lift:StorySnip.view view_id="view">
+		<div id="view">
+		<table>
+			<tr>
+				<td class="h">Title: </td>
+				<td><story:title></story:title></td>
+			</tr>
+			<tr>
+				<td class="h">Description: </td>
+				<td><story:description></story:description></td>
+			</tr>
+			<tr>
+				<td class="h">Business&nbsp;Value: </td>
+				<td><story:value></story:value></td>
+			</tr>
+			<tr>
+				<td class="h">Implementation&nbsp;Effort: </td>
+				<td><story:value></story:value></td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td><story:ready></story:ready> Ready to implement</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td><story:done></story:done> Completed (done)</td>
+			</tr>
+			<tr>
+				<td colspan="2" class="h">Dependencies on other stories:</td>
+			</tr>
+			<story:hasDeps>
+			<tr>
+				<td colspan="2">
+				<ul>
+				<story:dependsOn>
+				<li><dep:title/> <dep:remove/></li>
+				</story:dependsOn>
+				</ul>
+				</td>
+			</tr>
+			</story:hasDeps>
+			<tr>
+				<td>Add&nbsp;dependency: </td>
+				<td><story:addDep/></td>
+			</tr>
+			<story:hasThemes>
+			<tr>
+				<td colspan="2">
+				<ul>
+				<story:themes>
+				<li><theme:title/> <theme:remove/></li>
+				</story:themes>
+				</ul>
+				</td>
+			</tr>
+			</story:hasThemes>
+			<tr>
+				<td>Add&nbsp;theme: </td>
+				<td><story:addTheme/></td>
+			</tr>
+		</table>
+		</div>
+		</lift:StorySnip.view>
+	</lift:Util.in>
+</lift:surround>
+

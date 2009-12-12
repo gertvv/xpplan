@@ -34,7 +34,7 @@ with ManyToMany {
 object Theme extends Theme with LongKeyedMetaMapper[Theme] {
 	lazy val valueList = (1 to 50).map(v => (v.toString, v.toString))
 	lazy val sitemap : List[Menu] = List(Menu(Loc("Themes", List("themes"), "Themes")), Menu(Loc("Theme", List("theme"), "View Theme", Hidden)))
-	def themeList = findAll().map({theme:Theme => (theme, theme.title.toString)})
+	def themeList = findAll(OrderBy(Theme.title, Ascending)).map({theme:Theme => (theme, theme.title.toString)})
 }
 
 class ThemeStory extends LongKeyedMapper[ThemeStory]

@@ -20,6 +20,38 @@ import Helpers._
 import scala.xml.{NodeSeq, Text}
 
 class StorySnip {
+	def view(form: NodeSeq) = {
+		val story = currentStory
+		val id = S.attr("view_id").open_!
+
+		def inner(): NodeSeq = {
+			def reDraw() = SetHtml(id, inner())
+
+			bind("story", form,
+				"done" -> ajaxCheckbox(story.done, v => {story.done(v).save; reDraw()}),
+				"ready" -> ajaxCheckbox(story.ready, v => {story.ready(v).save; reDraw()}),
+				"value" -> ajaxSelect(Story.valueList, Full(story.value.toString),
+					v => {story.value(v.toInt).save; reDraw()}),
+				"complexity" -> ajaxSelect(Story.complexityList, Full(story.complexity.toString),
+					v => {story.complexity(v.toInt).save; reDraw()}),
+				"title" -> title(story, reDraw),
+				"description" -> description(story, reDraw),
+				"link" -> link("/story", () => CurrentStoryVar(story), Text("View")),
+				"hasDeps" -> conditionalDeps(story, reDraw) _,
+				"addDep" -> ajaxSelectObj(storyList, Empty, (dep:Story)=>{addDep(story, dep); reDraw()}),
+				"hasThemes" -> conditionalThemes(story, reDraw) _,
+				"addTheme" -> ajaxSelectObj(themesList, Empty, (theme:Theme)=>{addTheme(story, theme); reDraw()})
+				//"stories" -> storiesList(theme, reDraw)_)
+			)
+		}
+
+		inner()
+	}
+
+	object CurrentStoryVar extends RequestVar[Story]({Story.create.createdBy(User.currentUser)})
+
+	def currentStory = CurrentStoryVar.is
+
 	def add(form: NodeSeq) = {
 		val story = Story.create.createdBy(User.currentUser)
 
@@ -32,11 +64,8 @@ class StorySnip {
 		def doBind(form: NodeSeq) =
 		bind("story", form,
 			"title" -> story.title.toForm,
-			"description" -> story.description.toForm,
-			"value" -> story.value.toForm,
-			"complexity" -> story.complexity.toForm,
-			"done" -> story.done.toForm,
-			"ready" -> story.ready.toForm,
+			"description" -> textarea(story.description.toString,
+					(v) => {story.description(v)}),
 			"submit" -> submit("New", checkAndSave))
 
 		doBind(form)
@@ -128,11 +157,9 @@ class StorySnip {
 			"complexity" -> ajaxSelect(Story.complexityList, Full(story.complexity.toString),
 				v => {story.complexity(v.toInt).save; reDraw()}),
 			"title" -> title(story, reDraw),
-			"description" -> description(story, reDraw),
-			"hasDeps" -> conditionalDeps(story, reDraw) _,
-			"addDep" -> ajaxSelectObj(storyList, Empty, (dep:Story)=>{addDep(story, dep); reDraw()}),
-			"hasThemes" -> conditionalThemes(story, reDraw) _,
-			"addTheme" -> ajaxSelectObj(themesList, Empty, (theme:Theme)=>{addTheme(story, theme); reDraw()})
+			"link" -> link("/story", () => CurrentStoryVar(story), Text("View")),
+			"nDeps" -> story.dependsOn.size,
+			"nThemes" -> story.themes.size
 		))
 
 	private def storyList: List[(Story, String)] =
