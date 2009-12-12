@@ -14,7 +14,7 @@ with IdPK
 with ManyToMany {
 	def getSingleton = Theme
 
-	object title extends MappedText(this)
+	object title extends MappedString(this, 255)
 	object description extends MappedText(this)
 	object createdBy extends MappedLongForeignKey(this, User)
 	object value extends MappedInt(this) {

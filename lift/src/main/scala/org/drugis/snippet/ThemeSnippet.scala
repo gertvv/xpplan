@@ -67,7 +67,7 @@ class ThemeSnip {
 
 	private def toShow =
 		Theme.findAll(
-			OrderBy(Theme.value, Descending))
+			OrderBy(Theme.title, Ascending))
 
 	private def ajaxTitle(theme: Theme, reDraw: () => JsCmd) =
 		swappable(<span>{theme.title}</span>,

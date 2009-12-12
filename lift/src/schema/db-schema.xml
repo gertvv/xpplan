@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database">
+  <database name="MyModel">
+    <table name="STORY">
+      <column name="ID" primaryKey="true" required="true" type="BIGINT" size="19" autoIncrement="true"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="LONGVARCHAR" size="32700" autoIncrement="false"/>
+      <column name="DONE" primaryKey="false" required="false" type="SMALLINT" size="5" autoIncrement="false"/>
+      <column name="TITLE" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="IMPLEMENTATIONCOMPLEXITY" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="BUSINESSVALUE" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="false" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="VALUE" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="COMPLEXITY" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="THEMES" primaryKey="false" required="false" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="READY" primaryKey="false" required="false" type="SMALLINT" size="5" autoIncrement="false"/>
+      <index name="STORY_CREATEDBY">
+        <index-column name="CREATEDBY"/>
+      </index>
+      <index name="STORY_THEMES">
+        <index-column name="THEMES"/>
+      </index>
+    </table>
+    <table name="STORYPRECEDENCE">
+      <column name="ID" primaryKey="true" required="true" type="BIGINT" size="19" autoIncrement="true"/>
+      <column name="ANTECEDENT" primaryKey="false" required="false" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="PRECEDENT" primaryKey="false" required="false" type="BIGINT" size="19" autoIncrement="false"/>
+      <index name="STORYPRECEDENCE_ANTECEDENT">
+        <index-column name="ANTECEDENT"/>
+      </index>
+      <index name="STORYPRECEDENCE_PRECEDENT">
+        <index-column name="PRECEDENT"/>
+      </index>
+    </table>
+    <table name="THEME">
+      <column name="VALUE" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"/>
+      <column name="ID" primaryKey="true" required="true" type="BIGINT" size="19" autoIncrement="true"/>
+      <column name="DESCRIPTION" primaryKey="false" required="false" type="LONGVARCHAR" size="32700" autoIncrement="false"/>
+      <column name="TITLE" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+      <column name="CREATEDBY" primaryKey="false" required="false" type="BIGINT" size="19" autoIncrement="false"/>
+      <index name="THEME_CREATEDBY">
+        <index-column name="CREATEDBY"/>
+      </index>
+    </table>
+    <table name="THEMESTORY">
+      <column name="ID" primaryKey="true" required="true" type="BIGINT" size="19" autoIncrement="true"/>
+      <column name="THEME" primaryKey="false" required="false" type="BIGINT" size="19" autoIncrement="false"/>
+      <column name="STORY" primaryKey="false" required="false" type="BIGINT" size="19" autoIncrement="false"/>
+      <index name="THEMESTORY_STORY">
+        <index-column name="STORY"/>
+      </index>
+      <index name="THEMESTORY_THEME">
+        <index-column name="THEME"/>
+      </index>
+    </table>
+    <table name="USERS">
+      <column name="ID" primaryKey="true" required="true" type="BIGINT" size="19" autoIncrement="true"/>
+      <column name="FIRSTNAME" primaryKey="false" required="false" type="VARCHAR" size="32" autoIncrement="false"/>
+      <column name="LASTNAME" primaryKey="false" required="false" type="VARCHAR" size="32" autoIncrement="false"/>
+      <column name="EMAIL" primaryKey="false" required="false" type="VARCHAR" size="48" autoIncrement="false"/>
+      <column name="LOCALE" primaryKey="false" required="false" type="VARCHAR" size="16" autoIncrement="false"/>
+      <column name="TIMEZONE" primaryKey="false" required="false" type="VARCHAR" size="32" autoIncrement="false"/>
+      <column name="PASSWORD_PW" primaryKey="false" required="false" type="VARCHAR" size="48" autoIncrement="false"/>
+      <column name="PASSWORD_SLT" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+      <column name="TEXTAREA" primaryKey="false" required="false" type="VARCHAR" size="2048" autoIncrement="false"/>
+      <column name="SUPERUSER" primaryKey="false" required="false" type="SMALLINT" size="5" autoIncrement="false"/>
+      <column name="VALIDATED" primaryKey="false" required="false" type="SMALLINT" size="5" autoIncrement="false"/>
+      <column name="UNIQUEID" primaryKey="false" required="false" type="VARCHAR" size="32" autoIncrement="false"/>
+      <index name="USERS_EMAIL">
+        <index-column name="EMAIL"/>
+      </index>
+      <index name="USERS_UNIQUEID">
+        <index-column name="UNIQUEID"/>
+      </index>
+    </table>
+  </database>

@@ -25,4 +25,27 @@
 
 </target>
 
+<target name="restore"
+        description="Creates the database structure and inserts data into the database">
+  <taskdef name="ddlToDatabase"
+           classname="org.apache.ddlutils.task.DdlToDatabaseTask">
+    <classpath refid="runtime-classpath"/>
+  </taskdef>
+
+  <ddlToDatabase>
+    <database url="jdbc:derby:lift_example"
+              driverClassName="org.apache.derby.jdbc.EmbeddedDriver"
+              username=""
+              password=""/>
+    <fileset dir="src/schema/">
+      <include name="db-schema.xml"/>
+    </fileset>
+
+    <createDatabase failonerror="false"/>
+
+    <writeSchemaToDatabase/> 
+    <writeDataToDatabase datafile="data.xml"/> 
+  </ddlToDatabase>
+</target>
+
 </project>

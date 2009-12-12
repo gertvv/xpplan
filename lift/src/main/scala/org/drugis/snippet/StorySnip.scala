@@ -46,9 +46,14 @@ class StorySnip {
 		Story.findAll(
 			if (QueryNotDone) By(Story.done, false)
 			else Ignore[Story],
+			OrderBy(Story.title, Ascending)
+		)
+/*
 			OrderBy(Story.done, Ascending),
+			OrderBy(Story.ready, Descending),
 			OrderBy(Story.value, Descending),
-			OrderBy(Story.complexity, Ascending))
+			OrderBy(Story.complexity, Ascending),
+*/
 
 	private def title(story: Story, reDraw: () => JsCmd) =
 		swappable(<span>{story.title}</span>,
