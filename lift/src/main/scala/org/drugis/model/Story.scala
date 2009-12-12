@@ -42,7 +42,7 @@ with ManyToMany {
 	}
 	object ready extends MappedBoolean(this)
 	object done extends MappedBoolean(this)
-	object themes extends MappedLongForeignKey(this, ThemeStory)
+	object themes extends MappedManyToMany(ThemeStory, ThemeStory.story, ThemeStory.theme, Theme)
 	object dependsOn extends MappedManyToMany(StoryPrecedence, StoryPrecedence.antecedent, StoryPrecedence.precedent, Story)
 }
 

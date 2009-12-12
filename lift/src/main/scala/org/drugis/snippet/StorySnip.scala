@@ -70,6 +70,20 @@ class StorySnip {
 		story.save
 	}
 
+	private def delTheme(story: Story, theme: Theme) = {
+		story.themes -= theme
+		story.save
+	}
+
+	private def themeList(story: Story, reDraw: () => JsCmd)(ns: NodeSeq): NodeSeq = {
+		story.themes.flatMap({theme =>
+			bind("theme", ns,
+				"title" -> Text(theme.title.toString),
+				"remove" -> ajaxButton("Remove", () => {delTheme(story, theme); reDraw()})
+				)
+		})
+	}
+
 	private def dependsOnList(story: Story, reDraw: () => JsCmd)(ns: NodeSeq): NodeSeq = {
 		story.dependsOn.flatMap({dep => 
 			bind("dep", ns,
@@ -84,11 +98,24 @@ class StorySnip {
 		story.save
 	}
 
+	private def addTheme(story: Story, theme: Theme) = {
+		story.themes += theme
+		story.save
+	}
+
 	private def conditionalDeps(story: Story, reDraw: () => JsCmd)(html: NodeSeq): NodeSeq = {
 		val visible = !story.dependsOn.isEmpty
 		if (visible)
 			bind("story", html,
 				"dependsOn" -> dependsOnList(story, reDraw)_)
+		else Nil
+	}
+
+	private def conditionalThemes(story: Story, reDraw: () => JsCmd)(html: NodeSeq): NodeSeq = {
+		val visible = !story.themes.isEmpty
+		if (visible)
+			bind("story", html,
+				"themes" -> themeList(story, reDraw)_)
 		else Nil
 	}
 
@@ -103,11 +130,16 @@ class StorySnip {
 			"title" -> title(story, reDraw),
 			"description" -> description(story, reDraw),
 			"hasDeps" -> conditionalDeps(story, reDraw) _,
-			"addDep" -> ajaxSelectObj(storyList, Empty, (dep:Story)=>{addDep(story, dep); reDraw()})
+			"addDep" -> ajaxSelectObj(storyList, Empty, (dep:Story)=>{addDep(story, dep); reDraw()}),
+			"hasThemes" -> conditionalThemes(story, reDraw) _,
+			"addTheme" -> ajaxSelectObj(themesList, Empty, (theme:Theme)=>{addTheme(story, theme); reDraw()})
 		))
 
 	private def storyList: List[(Story, String)] =
 		(null, "(select one)") :: Story.storyList
+
+	private def themesList: List[(Theme, String)] =
+		(null, "(select one)") :: Theme.themeList
 
 	def list (html: NodeSeq) = {
 		val id = S.attr("stories_id").open_!
