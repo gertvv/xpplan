@@ -29,6 +29,15 @@ with ManyToMany {
 			f => set(f.toInt)))
 	}
 	object stories extends MappedManyToMany(ThemeStory, ThemeStory.theme, ThemeStory.story, Story)
+
+	def totalStoryValue = {
+		val values = for {
+			story <- stories
+		} yield story.value.toInt
+
+		if (values.size == 0) 0
+		else values.reduceLeft[Int](_ + _)
+	}
 }
 
 object Theme extends Theme with LongKeyedMetaMapper[Theme] {

@@ -89,7 +89,8 @@ class ThemeSnip {
 			"title" -> ajaxTitle(theme, reDraw),
 			"description" -> ajaxDescription(theme, reDraw),
 			"link" -> link("/theme", () => CurrentThemeVar(theme), Text("View")),
-			"stories" -> Text(theme.stories.map(_.title.toString).mkString(", "))
+			"stories" -> Text(theme.stories.map(_.title.toString).mkString(", ")),
+			"storyValue" -> Text(theme.totalStoryValue.toString)
 		))
 
 	object CurrentThemeVar extends RequestVar[Theme]({Theme.create.createdBy(User.currentUser)})
