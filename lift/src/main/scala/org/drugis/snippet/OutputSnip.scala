@@ -37,7 +37,7 @@ class CSVOutput(themes: List[Theme], stories: List[Story]) {
 	}
 
 	private def included(theme: Theme): String = {
-		commaSeparate(indexList(theme.stories.toList))
+		commaSeparate(indexList(removeDone(theme.stories.toList)))
 	}
 
 	private def allIncluded(l0: List[Story]): Boolean = l0 match {
@@ -48,9 +48,13 @@ class CSVOutput(themes: List[Theme], stories: List[Story]) {
 			true
 	}
 
+	private def removeDone(l0: List[Story]): List[Story] = {
+		l0.filter(s => !s.done)
+	}
+
 	private def allowable(theme: Theme): Boolean = {
-		if (theme.stories.isEmpty) false
-		else allIncluded(theme.stories.toList)
+		if (removeDone(theme.stories.toList).isEmpty) false
+		else allIncluded(removeDone(theme.stories.toList))
 	}
 
 	private def filterThemes: List[Theme] = {
