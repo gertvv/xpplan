@@ -100,7 +100,7 @@ storyDeps <- function(nStories, nThemes, nBags, i, deps) {
 	for (k in 1:nBags) {
 		m[k, ] <- 
 			c(nDeps * rep(thisW, times = nBags), otherSel) *
-				onlyBag(nStories, nThemes, nBags, k) +
+				onlyBag(nStories, nThemes, nBags, k) -
 			c(rep(depsW, times = nBags), otherSel) *
 				uptoAndIncludingBag(nStories, nThemes, nBags, k)
 	}
