@@ -1,0 +1,5 @@
+"Name","Discount","Budget"
+"Green list",0.9,35
+"Yellow list",0.7,50
+"Red list",0.5,75
+"Black list",0.1,1000
