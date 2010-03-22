@@ -233,15 +233,31 @@ xpPrint <- function(s) {
 	nBags = length(problem$bag.names)
 
 	for (k in 1:nBags) {
-		cat(paste(problem$bag.names[k], "\n", sep=""))
-		cat("Stories selected:\n")
+		budget = problem$bag.budgets[k]
+		discount = problem$bag.discounts[k]
+		cat(paste(
+			problem$bag.names[k], "(discount ", discount,
+			", budget ", budget, ")\n", sep=""))
+		cat("\tStories selected:\n")
 		selectedStories <- s$solution[1:nStories + (k - 1) * nStories] == 1
-		print(problem$story.names[selectedStories], quote=F)
-		cat("Themes selected:\n")
+		for (name in problem$story.names[selectedStories]) {
+			cat(paste("\t\t", name, "\n", sep=""))
+		}
+		storyCost = (sum(problem$story.costs[selectedStories]))
+		cat(paste(
+			"\tComplexity: ", storyCost, sep=""))
+		storyVal = sum(problem$story.values[selectedStories])
+		cat(paste(
+			"\tValue: ", storyVal, " (", storyVal * discount, ")\n", sep=""))
+		cat("\tThemes selected:\n")
 		selectedThemes <- s$solution[1:nThemes + nBags * nStories + (k - 1) * nThemes] == 1
-		print(problem$theme.names[selectedThemes], quote=F)
+		for (name in problem$theme.names[selectedThemes]) {
+			cat(paste("\t\t", name, "\n", sep=""))
+		}
+		themeVal = sum(problem$theme.values[selectedThemes])
+		cat(paste(
+			"\tValue: ", themeVal, " (", themeVal * discount, ")\n", sep=""))
 	}
 
-	cat("Expected value:\n")
-	print(s$objval)
+	cat("Expected value: ", s$objval, "\n", sep="")
 }
