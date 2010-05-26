@@ -49,7 +49,7 @@ with ManyToMany {
 object Story extends Story with LongKeyedMetaMapper[Story] {
 	lazy val valueList = ("0", "NA") :: ((1 to 5).map(v => (v.toString, v.toString))).toList
 	lazy val complexityList = ("0", "NA") :: List(1, 2, 3, 5, 8).map(v => (v.toString, v.toString)).toList
-	lazy val sitemap : List[Menu] = List(Menu(Loc("Stories", List("stories"), "Stories")), Menu(Loc("Story", List("story"), "View Story", Hidden)))
+	lazy val sitemap : List[Menu] = List(Menu(Loc("Stories", List("stories"), "Stories")), Menu(Loc("Story", List("story"), "View Story", Hidden)), Menu(Loc("Print Stories", List("storiesPrint"), "Print Stories")))
 	def storyList = findAll(OrderBy(Story.title, Ascending)).map({story:Story => (story, story.title.toString)})
 }
 

@@ -1,0 +1,14 @@
+<lift:surround with="default" at="content">
+  <h2>Story Overview!</h2>
+	<lift:Util.in>
+		<lift:StorySnip.list stories_id="story_list">
+		<div id="story_list">
+		<p>Exclude done <story:exclude/></p>
+		<story:list>
+			<h3><story:title /></h3>
+			<div><p><story:description /></p></div>
+		</story:list>
+		</div>
+		</lift:StorySnip.list>
+	</lift:Util.in>
+</lift:surround>

@@ -159,7 +159,8 @@ class StorySnip {
 			"title" -> title(story, reDraw),
 			"link" -> link("/story", () => CurrentStoryVar(story), Text("View")),
 			"nDeps" -> story.dependsOn.size,
-			"nThemes" -> story.themes.size
+			"nThemes" -> story.themes.size,
+			"description" -> story.description
 		))
 
 	private def storyList: List[(Story, String)] =
